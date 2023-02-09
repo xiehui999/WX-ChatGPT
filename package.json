@@ -1,4 +1,5 @@
 {
+  "name": "WX-ChatGPT",
   "scripts": {
     "dev": "nodemon --exec node --loader ts-node/esm  src/app.ts",
     "build": "tsc"
