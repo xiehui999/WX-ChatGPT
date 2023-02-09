@@ -34,7 +34,7 @@ router.post('/wx', async function (req, res) {
   console.log(req.body.xml, msgtype)
   if (msgtype === 'event') {
     if (req.body.xml.event === 'subscribe') {
-      let reply = '欢迎关注本公众号体验ChatGPT'
+      let reply = '欢迎关注本公众号体验ChatGPT, 带宽有限以及 OpenApi 国内不稳定,会偶尔出现服务不可用'
       var resMsg = autoReply('text', req.body.xml, reply)
       console.log('[weixin] reply message')
       console.log(resMsg)
