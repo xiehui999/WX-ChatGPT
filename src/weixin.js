@@ -6,6 +6,8 @@ const router = require('express').Router()
 const chatGPTPool = new ChatGPTPool()
 
 chatGPTPool.startGPTBot()
+const cacheMsg = {}
+
 router.get('/wx', function wxAccess(req, res) {
   var token = config.token
   var signature = req.query.signature
@@ -25,11 +27,10 @@ router.get('/wx', function wxAccess(req, res) {
 })
 
 router.post('/wx', async function (req, res) {
-  console.log(autoReply)
   //设置返回数据header
   res.writeHead(200, { 'Content-Type': 'application/xml' })
   console.log('[weixin] request:')
-  const { msgtype, content, fromusername } = req.body.xml
+  const { msgtype, content, fromusername, msgid } = req.body.xml
   console.log(req.body.xml, msgtype)
   if (msgtype === 'event') {
     if (req.body.xml.event === 'subscribe') {
@@ -43,12 +44,19 @@ router.post('/wx', async function (req, res) {
       res.end('success')
     }
   } else if (msgtype === 'text') {
-    const msg = await chatGPTPool.getGPTMessage(content, fromusername)
-    console.log('msg', msg)
+    let msg = ''
+    if (cacheMsg[msgid]) {
+      console.log('getcacheMsg')
+      msg = cacheMsg[msgid]
+    } else {
+      console.log('getGPTMessage')
+      msg = await chatGPTPool.getGPTMessage(content, fromusername)
+    }
+    cacheMsg[msgid] = msg
     const resMsg = autoReply('text', req.body.xml, msg)
     res.end(resMsg || 'success')
   } else {
-    var resMsg = autoReply(m, req.body.xml, '活动电子票')
+    var resMsg = autoReply(msgtype, req.body.xml, '活动电子票')
     res.end(resMsg || 'success')
   }
 

@@ -19,7 +19,6 @@ function autoReply(msgType: string, requestData: any, desc: string) {
         '</xml>';
       break;
   }
-  console.log(resMsg);
   return resMsg;
 }
 
