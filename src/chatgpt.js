@@ -35,7 +35,7 @@ class ChatGPTPool {
     const { ChatGPTAPI: ChatGPTAPIData } = await import('chatgpt')
     ChatGPTAPI = ChatGPTAPIData
     this.chatGPT = new ChatGPTAPI({
-      apiKey: config.chatGPTAccountPool.apiKey
+      apiKey: config.apiKey
     })
   }
 
@@ -100,11 +100,11 @@ class ChatGPTPool {
     } catch (err) {
       if (err.message.includes('ChatGPT failed to refresh auth token')) {
         // If refresh token failed, we will remove the conversation from pool
-        console.log(`Refresh token failed ${JSON.stringify(config.chatGPTAccountPool.apiKey)}`)
+        console.log(`Refresh token failed ${JSON.stringify(config.apiKey)}`)
         return this.getGPTMessage(message, talkid)
       }
       console.error(
-        `err is ${err.message}, apiKey ${JSON.stringify(config.chatGPTAccountPool.apiKey)}`
+        `err is ${err.message}, apiKey ${JSON.stringify(config.apiKey)}`
       )
       // If send message failed, we will remove the conversation from pool
       this.conversationsPool.delete(talkid)
