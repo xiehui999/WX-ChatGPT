@@ -29,15 +29,13 @@ router.get('/wx', function wxAccess(req, res) {
 router.post('/wx', async function (req, res) {
   //设置返回数据header
   res.writeHead(200, { 'Content-Type': 'application/xml' })
-  console.log('[weixin] request:')
   const { msgtype, content, fromusername, msgid } = req.body.xml
-  console.log(req.body.xml, msgtype)
+  console.log('[weixin] request:', content, msgid, fromusername, msgtype,)
   if (msgtype === 'event') {
     if (req.body.xml.event === 'subscribe') {
       let reply = '欢迎关注本公众号体验ChatGPT, 带宽有限以及 OpenApi 国内不稳定,会偶尔出现服务不可用'
       var resMsg = autoReply('text', req.body.xml, reply)
       console.log('[weixin] reply message')
-      console.log(resMsg)
       res.end(resMsg)
     } else if (req.body.xml.event === 'unsubscribe') {
       console.log('[weixin] 已取消关注')
@@ -56,7 +54,7 @@ router.post('/wx', async function (req, res) {
     const resMsg = autoReply('text', req.body.xml, msg)
     res.end(resMsg || 'success')
   } else {
-    var resMsg = autoReply(msgtype, req.body.xml, '活动电子票')
+    const resMsg = autoReply(msgtype, req.body.xml, '不支持该类型')
     res.end(resMsg || 'success')
   }
 
