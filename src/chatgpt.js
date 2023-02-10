@@ -68,7 +68,7 @@ class ChatGPTPool {
   setConversation(talkid, obj) {
     const conversationItem = this.getConversation(talkid)
     const params = Object.assign({}, conversationItem, obj)
-    this.conversationsPool.set(talkid, obj)
+    this.conversationsPool.set(talkid, params)
   }
 
   // send message with talkid
