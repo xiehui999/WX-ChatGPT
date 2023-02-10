@@ -29,9 +29,8 @@ router.get('/wx', function wxAccess(req, res) {
 router.post('/wx', async function (req, res) {
   //设置返回数据header
   res.writeHead(200, { 'Content-Type': 'application/xml' })
-  console.log('[weixin] request:')
   const { msgtype, content, fromusername, msgid } = req.body.xml
-  console.log(req.body.xml, msgtype)
+  console.log('[weixin] request:',msgtype, content, fromusername)
   if (msgtype === 'event') {
     if (req.body.xml.event === 'subscribe') {
       let reply = '欢迎关注本公众号体验ChatGPT, 带宽有限以及 OpenApi 国内不稳定,会偶尔出现服务不可用'
