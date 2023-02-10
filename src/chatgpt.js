@@ -93,7 +93,7 @@ class ChatGPTPool {
         conversationId: newConversationId,
         id: newMessageId
       } = result
-      console.log('msg', result, text, messageId, conversationId)
+      console.log('msg', text)
       // Update conversation information
       this.setConversation(talkid, { conversationId: newConversationId, messageId: newMessageId })
       return text
